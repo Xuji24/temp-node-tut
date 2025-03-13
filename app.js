@@ -1,21 +1,48 @@
-// npm - global command, comes with node
-// npm --version
+// Event Loop
+const {readFile, writeFile} = require('fs').promises;
 
-// local dependency - use it only in this particular project
-// npm i <packageName>
+// const util = require ('util');
+// const readFilePromise = util.promisify(readFile)
+// const writeFilePromise = util.promisify(readFile)
 
-// global dependency - use it in any project
-// npm install -g <packageName>
-// sudo install -g <packageName> (mac)
 
-//package.json - manifest file (stores important info about project/package)
-// manual apparoach (create package.json in the root, create properties etc)
-// npm init (step by step, press enter to skip)
-// npm init -y (everything default)
 
-const _ = require('lodash');
+// await
+const start = async() =>{
+    try{
+        const first = await readFile('./content/first.txt', 'utf8'); // wait for promise to be finished to be execut ed
+        const second = await readFile('./content/second.txt', 'utf8');
 
-const items = [1, [2, [3, [4]]]]
-const newItems = _.flattenDeep(items);
+        await writeFile(
+            './content/result-mind-grenade.txt', 
+            `This is Awesome : ${first} ${second}`
+        )
 
-console.log(newItems);
+
+        console.log(first, second);
+    } catch (error){
+        console.log(error);
+    }
+}
+
+start()
+
+// Promise
+// const getText = (path) =>{
+//     return new Promise((resolve, reject)=>{
+//         readFile(path, 'utf8', (err, result)=>{
+//             if(err){
+//                 reject(err)
+//             }
+//             else{
+//                 resolve(result)
+//             }
+        
+//         })
+//     })
+// }
+
+// path of the content, return a promise 
+// getText('./content/first.txt')
+// .then((result) => console.log(result))
+// .catch((err)=> console.log(err))
